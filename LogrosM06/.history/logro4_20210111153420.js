@@ -1,1 +1,0 @@
-Realiza un programa que simule 5
