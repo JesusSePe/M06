@@ -1,0 +1,1 @@
+Realiza un programa que simule 5 tiradas de un dado de 20 SVGPathSegCurvetoQuadraticSmoothAbs.
