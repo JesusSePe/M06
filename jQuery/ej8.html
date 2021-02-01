@@ -37,13 +37,10 @@
             };
             
             $.each(juegos, function(key, value){
-                $.fn.data = function (item){
-                    $info = ('<li>' + key + ':' + value + '</li>');
-                    $item.append($info);
-                }
-                $child = $('ul:first').data();
-
-                
+                $child = $('ul:first');
+                $info = ('<li>' + key + '</li>');
+                $info.data("anys", {})
+                $child.append($info);
             });
         }
 
