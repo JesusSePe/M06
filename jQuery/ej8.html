@@ -39,7 +39,8 @@
             $.each(juegos, function(key, value){
                 $child = $('ul:first');
                 $info = ('<li>' + key + '</li>');
-                $info.data("anys", {})
+                $child.data("anys", {key:value});
+                console.log($child.data("anys").key)
                 $child.append($info);
             });
         }
