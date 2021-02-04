@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Los videojuegos de 2020</title>
+    <meta charset="UTF-8">
+    <meta name="title" content="Los videojuegos de 2020">
+    <meta name="description" content="Descripción de la WEB">
+    <script type="text/javascript" src="ejemplo1.js"></script>
+    <script type="text/javascript">
+        document.addEventListener("DOMContentLoaded", function (event) {
+            document.getElementById('titulo').innerText = 'Los videojuegos de Adrian';
+            tochange = document.getElementsByClassName('navigation-link');
+            for (var i = 0; i < tochange.length; i++) {
+                tochange[i].href = "http://www.google.com";
+            }
+            document.getElementsByName('paisaje')[0].alt = "logro desbloqueado";
+        });
+    </script>
+</head>
+
+<body>
+    <header>
+        <h1 id="titulo">Los videojuegos de 2020</h1>
+    </header>
+    <nav>
+        <a class="navigation-link" href="http://dominio.com/seccion2.html">Videojuegos 2018</a>
+        <a class="navigation-link" href="http://dominio.com/seccion2.html">Videojuegos 2019</a>
+    </nav>
+    <section>
+        <article>
+            <h2>CONTENIDO PRINCIPAL</h2>
+            <p>Este es el contenido principal de mi web</p>
+            <div>
+                <p>Aquí tenéis una imagen.</p>
+                <img src="http://dominio.com/imagen.jpg" alt="paisaje" name="paisaje">
+            </div>
+        </article>
+    </section>
+    <aside>
+        <h3>Banner de publicidad</h3>
+        <a href="http://dominio-externo.com">
+            <img src="http://dominio.com/banner-publicidad.png" alt="banner de publicidad">
+        </a>
+        <h3>Testimonios</h3>
+        <p>Me gusta mucho esta página.</p>
+    </aside>
+    <footer>
+        <h4>Avisos legales</h4>
+        <a href="http://dominio.com/aviso-legal">Política de cookies</a>
+        <h4>Redes sociales</h4>
+        <a href="http://facebook.com/mi-pagina-de-facebook">Mi Facebook</a>
+    </footer>
+</body>
+
+</html>

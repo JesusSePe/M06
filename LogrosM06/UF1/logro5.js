@@ -23,5 +23,9 @@ function par(num) {
 }
 
 function primo(num){
-    if (parv == 'par' and num )
+    for (let index = 1; index <= num; index++) {
+        if (num % index == 0 && num != index && index != 1) {
+            primov = 'no primo'
+        }
+    }
 }

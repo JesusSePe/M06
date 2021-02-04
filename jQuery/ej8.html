@@ -49,18 +49,18 @@
         * de los elementos crea un nuevo elemento en la lista del año que toque
         */
         function asignarListaYear() {
-            var games = $("ul:first").children();
-            for (const li of games) {
-                var game = $("<li>"+ $(li).text()+ "</li>").data("year", $(li).data("year"));
-                if ($(li).data("year") == 2018) {
-                    $("ul").eq(1).append(game);
-                } else if ($(li).data("year") == 2017) {
-                    $("ul").eq(2).append(game);
-                } else {
-                    $("ul:last").append(game);
+                let juegos = $("ul").first().children();
+                for (const li of juegos) {
+                    let game = $("<li>" + $(li).text() + "</li>").data("year", $(li).data("year"));
+                    if ($(li).data("any") == 2018) {
+                        $("ul").eq(1).append(game);
+                    } else if ($(li).data("any") == 2017) {
+                        $("ul").eq(2).append(game);
+                    } else {
+                        $("ul:last").append(game);
+                    }
                 }
             }
-        }
     </script>
 </head>
 
