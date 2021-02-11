@@ -1,0 +1,38 @@
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"
+        integrity="sha256-9/aliU8dGd2tb6OSsuzixeV4y/faTqgFtohetphbbj0=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        $(function (){
+            $("input[name='creardorEnlace']").on("click", crearEnlace);
+            $("input[name='clonadorEnlace']").on("click", clonarEnlace);
+            $("button[name='cambiadorEnlace']").on("click", clonarEnlace);
+            function crearEnlace(){
+                $("#firstP").append('<a href="http://nuevoenlace.com">Nuevo enlace</a>').addClass("myClass");
+            }
+            function clonarEnlace(){
+                $("p").last().append($(".myClass").first().clone())
+            }
+            function cambiarEnlace () {
+                $(".myClass").attr("href", $("input[name='enlaceNuevo']").val());
+            }
+        })
+    </script>
+  </head>
+  <body>
+    <h2>Creación i clonación de elementos con jQuery</h2>
+    <p id="firstP">
+
+    </p>
+    <p>
+      <h3>Aquí van los elementos clonados</h3>
+    </p>
+    <input type="button" name="creardorEnlace" value="Crear enlace"/>
+    <input type="button" name="clonadorEnlace" value="Clona el enlace"/>
+    <div>
+        <button name="cambiadorEnlace">Cambiar atributo enlace</button>
+        <input type="text" name="enlaceNuevo" value="Cambiar el enlace"/>
+    </div>
+</body>
+</html>
