@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ej1</title>
+
+    <script type="text/javascript">
+      var READY_STATE_UNINITIALIZED=0;
+      var READY_STATE_LOADING=1;
+      var READY_STATE_LOADED=2;
+      var READY_STATE_INTERACTIVE=3;
+      var READY_STATE_COMPLETE=4;
+
+      var HTTP_STATUS_OK = 200;
+
+      var peticion_http;
+
+      function cargaContenido(url, metodo, funcion) {
+        peticion_http = inicializa_xhr();
+
+        if(peticion_http) {
+          peticion_http.onreadystatechange = funcion;
+          peticion_http.open(metodo, url, true);
+          peticion_http.send(null);
+        }
+      }
+
+      function inicializa_xhr() {
+        if(window.XMLHttpRequest) {
+          return new XMLHttpRequest();
+        }
+        else if(window.ActiveXObject) {
+          return new ActiveXObject("Microsoft.XMLHTTP");
+        }
+      }
+
+      function muestraContenido() {
+        if(peticion_http.readyState == READY_STATE_COMPLETE) {
+          if(peticion_http.status == HTTP_STATUS_OK) {
+            console.log(peticion_http.responseText);
+            alert(peticion_http.responseText);
+          }
+        }
+      }
+      function getNumber(){
+        num = document.getElementById("numero").value;
+        cargaContenido("http://localhost/M06/AJAX/ej1.php?num="+num, "GET", muestraContenido)
+      }
+      
+      window.onload = descargaArchivo;
+    </script>
+
+  </head>
+  <body>
+    Numero: <input type="number" id="numero">
+    <input type="submit" name="send" onclick="getNumber()">
+  </body>
+</html>
