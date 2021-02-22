@@ -36,8 +36,11 @@
       function muestraContenido() {
         if(peticion_http.readyState == READY_STATE_COMPLETE) {
           if(peticion_http.status == HTTP_STATUS_OK) {
-            console.log(peticion_http.responseText);
-            alert(peticion_http.responseText);
+            if (peticion_http.responseText == 'TRUE'){
+              alert('El numero es primo.')
+            } else {
+              alert('El numero no es primo.');
+            }
           }
         }
       }

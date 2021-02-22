@@ -8,7 +8,7 @@
             $("input[name='creardorEnlace']").on("click", crearEnlace);
             $("input[name='clonadorEnlace']").on("click", clonarEnlace);
             function crearEnlace(){
-                $("#firstP").append('<a href="http://nuevoenlace.com">Nuevo enlace</a>').addClass("myClass");
+                $("#firstP").append('<a enlaceOriginal="True" href="http://nuevoenlace.com">Nuevo enlace</a>').addClass("myClass");
             }
             function clonarEnlace(){
                 $("p").last().append($(".myClass").first().clone())
