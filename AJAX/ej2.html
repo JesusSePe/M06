@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ej1</title>
+
+    <script type="text/javascript">
+      var READY_STATE_UNINITIALIZED=0;
+      var READY_STATE_LOADING=1;
+      var READY_STATE_LOADED=2;
+      var READY_STATE_INTERACTIVE=3;
+      var READY_STATE_COMPLETE=4;
+
+      var HTTP_STATUS_OK = 200;
+
+      var peticion_http;
+
+      function cargaContenido(url, metodo, funcion) {
+        peticion_http = inicializa_xhr();
+
+        if(peticion_http) {
+          peticion_http.onreadystatechange = funcion;
+          peticion_http.open(metodo, url, true);
+          peticion_http.send(null);
+        }
+      }
+
+      function inicializa_xhr() {
+        if(window.XMLHttpRequest) {
+          return new XMLHttpRequest();
+        }
+        else if(window.ActiveXObject) {
+          return new ActiveXObject("Microsoft.XMLHTTP");
+        }
+      }
+
+
+      // OBTENER LAS REGIONES E INTRODUCIRLAS EN EL SELECT.
+      function muestraRegiones() {
+        if(peticion_http.readyState == READY_STATE_COMPLETE) {
+          if(peticion_http.status == HTTP_STATUS_OK) {
+            var response = JSON.parse(peticion_http.response);
+            var regions = response["results"];
+            var select = document.getElementById('regiones');
+            for (let index = 0; index < regions.length; index++) {
+              const element = regions[index];
+              var optn = document.createElement('option');
+              optn.value = element["name"];
+              optn.innerHTML = element["name"];
+              select.appendChild(optn);
+            }
+            
+          }
+        }
+      }
+
+      // OBTENER LAS LOCALIZACIONES, MOTRAR EL SELECT E INTRODUCIR LAS OPCIONES.
+      function muestraLocalizaciones() {
+        if(peticion_http.readyState == READY_STATE_COMPLETE) {
+          if(peticion_http.status == HTTP_STATUS_OK) {
+            var response = JSON.parse(peticion_http.response);
+            var locations = response["locations"];
+            var select = document.getElementById('localizaciones');
+            if (select.style.visibility == 'visible'){
+              while (select.firstChild) {
+                select.removeChild(select.lastChild);
+              }
+            }
+            select.style.visibility = 'visible';
+            document.getElementById('localizacionesSubmit').style.visibility = 'visible';
+            for (let index = 0; index < locations.length; index++) {
+              const element = locations[index];
+              var optn = document.createElement('option');
+              optn.value = element["name"];
+              optn.innerHTML = element["name"];
+              select.appendChild(optn);
+            }
+            var tabla = document.getElementsByTagName('table')[0];
+            if (tabla.style.visibility == 'visible'){
+              document.getElementsByTagName('p')[0].style.visibility = 'hidden';
+              tabla.style.visibility = 'hidden';
+              tabla.removeChild(tabla.lastChild);
+            }
+          }
+        }
+      }
+
+      // OBTENER LOS NOMBRES EN CADA IDIOMA.
+      function muestraNombres() {
+        if(peticion_http.readyState == READY_STATE_COMPLETE) {
+          if(peticion_http.status == HTTP_STATUS_OK) {
+            var response = JSON.parse(peticion_http.response);
+            var nombres = response["names"];
+            var tabla = document.getElementsByTagName('table')[0];
+            if (tabla.style.visibility == 'visible'){
+              tabla.removeChild(tabla.lastChild);
+            }
+            document.getElementsByTagName('p')[0].style.visibility = 'visible';
+            tabla.style.visibility = 'visible';
+            let header = tabla.createTHead();
+            let hrow = tabla.insertRow();
+            let h1 = hrow.insertCell();
+            let h2 = hrow.insertCell();
+            h1.innerHTML = "<b>Idioma</b>"
+            h2.innerHTML = "<b>Nombre</b>"
+            for (let index = 0; index < nombres.length; index++) {
+              const element = nombres[index];
+              // Asignar valores a las variables
+              let lan = element["language"]["name"];
+              // Corrección de banderas
+              if (lan === 'ja-Hrkt'){
+                lan = 'jp';
+              } else if (lan === 'ko'){
+                lan = 'kr';
+              } else if (lan === 'en'){
+                lan = 'GB';
+              } else if (lan === 'ja'){
+                lan = 'jp';
+              } else if (lan === 'zh-Hans'){
+                lan = 'CN'
+              }
+              var idioma = '<img src="https://www.countryflags.io/'+lan+'/flat/32.png">';
+              var nombre = element["name"];
+              // Crear la fila y las columnas
+              var row = tabla.insertRow();
+              var language = row.insertCell();
+              var name = row.insertCell();
+              language.innerHTML = idioma;
+              name.innerHTML = nombre;
+            }
+          }
+        }
+      }
+
+      /* REFERENCE
+      function muestraContenido() {
+        if(peticion_http.readyState == READY_STATE_COMPLETE) {
+          if(peticion_http.status == HTTP_STATUS_OK) {
+            if (peticion_http.responseText == 'TRUE'){
+              alert('El numero es primo.')
+            } else {
+              alert('El numero no es primo.');
+            }
+          }
+        }
+      }*/
+      function getRegions(){
+        cargaContenido("https://pokeapi.co/api/v2/region/", "GET", muestraRegiones)
+      }
+      function getLocations(){
+        region = document.getElementById("regiones").value;
+        cargaContenido("https://pokeapi.co/api/v2/region/"+region, "GET", muestraLocalizaciones)
+      }
+      function getNames(){
+        name = document.getElementById("localizaciones").value;
+        cargaContenido("https://pokeapi.co/api/v2/location/"+name, "GET", muestraNombres)
+      }
+      window.onload = getRegions;
+    </script>
+
+  </head>
+  <body>
+    <select id="regiones">
+      <!--Opciones con las diferentes regiones.-->
+    </select>
+    <input type="submit" onclick="getLocations()"> <br>
+
+    <select id="localizaciones" style="visibility: hidden">
+      <!--Opciones con las diferentes localizaciones.-->
+    </select>
+    <input type="submit" id="localizacionesSubmit" style="visibility: hidden"onclick="getNames()">
+    <br>
+    <p style="visibility: hidden">Este sitio tambien se llama: </p>
+    <table style="visibility: hidden">
+    </table>
+
+  </body>
+</html>
