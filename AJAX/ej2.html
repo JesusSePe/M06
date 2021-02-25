@@ -15,6 +15,10 @@
       var peticion_http;
 
       function cargaContenido(url, metodo, funcion) {
+        //LOADING GIF
+        document.getElementById('loading').style.visibility = 'visible';
+
+
         peticion_http = inicializa_xhr();
 
         if(peticion_http) {
@@ -48,7 +52,7 @@
               optn.innerHTML = element["name"];
               select.appendChild(optn);
             }
-            
+            document.getElementById('loading').style.visibility = 'hidden';
           }
         }
       }
@@ -80,6 +84,7 @@
               tabla.style.visibility = 'hidden';
               tabla.removeChild(tabla.lastChild);
             }
+            document.getElementById('loading').style.visibility = 'hidden';
           }
         }
       }
@@ -116,7 +121,9 @@
               } else if (lan === 'ja'){
                 lan = 'jp';
               } else if (lan === 'zh-Hans'){
-                lan = 'CN'
+                lan = 'CN';
+              } else if (lan === 'zh-Hant'){
+                lan = 'CN';
               }
               var idioma = '<img src="https://www.countryflags.io/'+lan+'/flat/32.png">';
               var nombre = element["name"];
@@ -127,6 +134,7 @@
               language.innerHTML = idioma;
               name.innerHTML = nombre;
             }
+            document.getElementById('loading').style.visibility = 'hidden';
           }
         }
       }
@@ -167,11 +175,14 @@
     <select id="localizaciones" style="visibility: hidden">
       <!--Opciones con las diferentes localizaciones.-->
     </select>
-    <input type="submit" id="localizacionesSubmit" style="visibility: hidden"onclick="getNames()">
+    <input type="submit" id="localizacionesSubmit" style="visibility: hidden" onclick="getNames()">
     <br>
     <p style="visibility: hidden">Este sitio tambien se llama: </p>
-    <table style="visibility: hidden">
+    <table style="visibility: hidden" border="1" cellpadding="10">
     </table>
+    <div id="loading" style="visibility: hidden; position: absolute;">
+      <img src="./nyan.gif">
+    </div>
 
   </body>
 </html>
