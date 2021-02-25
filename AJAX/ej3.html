@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ej3</title>
+    <script src="https://code.jquery.com/jquery-3.5.1.js"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/highlight.js/10.5.0/highlight.min.js"></script>
+
+    <script type="text/javascript">
+
+      // OBTENER LAS REGIONES E INTRODUCIRLAS EN EL SELECT.
+      function muestraRegiones(response) {
+        var regions = response["results"];
+        for (let index = 0; index < regions.length; index++) {
+          const element = regions[index];
+          $('select:first-of-type').append($('<option/>', { 
+            value: element["name"],
+            text: element["name"]
+          }));
+        }
+        $('#loading').css("visibility", "hidden");
+      }
+
+      // OBTENER LAS LOCALIZACIONES, MOTRAR EL SELECT E INTRODUCIR LAS OPCIONES.
+      function muestraLocalizaciones(response) {
+        var locations = response["locations"];
+        if ($('#localizaciones').css('visibility') == 'visible'){
+          $('#localizaciones').empty();
+        }
+        $('#localizaciones').css("visibility", "visible");
+        $('#localizacionesSubmit').css("visibility", "visible");
+        for (let index = 0; index < locations.length; index++) {
+          const element = locations[index];
+          $('#localizaciones').append($('<option/>', { 
+            value: element["name"],
+            text: element["name"]
+          }));
+        }
+        if ($('table:first-of-type').css('visibility') == 'visible'){
+          $('p:first-of-type').css("visibility", "hidden");
+          $('table:first-of-type').css("visibility", "hidden");
+          $('table:first-of-type tr').remove()
+        }
+        $('#loading').css("visibility", "hidden");
+      }
+
+      // OBTENER LOS NOMBRES EN CADA IDIOMA.
+      function muestraNombres(response) {
+        var nombres = response["names"];
+        if ($('table:first-of-type').css('visibility') == 'visible'){
+          $('table:first-of-type tr').remove()
+        }
+        $('p:first-of-type').css("visibility", "visible");
+        $('table:first-of-type').css("visibility", "visible");
+        $('table:first-of-type').append("<tr><td><b>Idioma</b></td><td><b>Nombre</b></td></tr>");
+        for (let index = 0; index < nombres.length; index++) {
+          const element = nombres[index];
+          // Asignar valores a las variables
+          let lan = element["language"]["name"];
+          // Corrección de banderas
+          if (lan === 'ja-Hrkt'){
+            lan = 'jp';
+          } else if (lan === 'ko'){
+            lan = 'kr';
+          } else if (lan === 'en'){
+            lan = 'GB';
+          } else if (lan === 'ja'){
+            lan = 'jp';
+          } else if (lan === 'zh-Hans'){
+            lan = 'CN';
+          } else if (lan === 'zh-Hant'){
+            lan = 'CN';
+          }
+          $('table:first-of-type').append(
+            "<tr><td><img src='https://www.countryflags.io/"+lan+"/flat/32.png'></td><td>"+element["name"]+"</td></tr>"
+          );
+        }
+        $('#loading').css("visibility", "hidden");
+      }
+
+      // Llamadas AJAX
+      function getRegions(){
+        $('#loading').css("visibility", "visible");
+        $.ajax({
+          url: "https://pokeapi.co/api/v2/region/",
+          dataType: "json",
+        }).done(function(msg){
+          muestraRegiones(msg);
+        }).fail(function(){
+          alert("Ajax Error");
+        });
+      }
+
+      function getLocations(){
+        $('#loading').css("visibility", "visible");
+        region = $('#regiones').val();
+        $.ajax({
+          url: "https://pokeapi.co/api/v2/region/"+region
+        }).done(function(msg){
+          muestraLocalizaciones(msg);
+        }).fail(function(){
+          alert("Ajax Error");
+        });
+      }
+
+      function getNames(){
+        $('#loading').css("visibility", "visible");
+        name = $('#localizaciones').val();
+        $.ajax({
+          url: "https://pokeapi.co/api/v2/location/"+name
+        }).done(function(msg){
+          muestraNombres(msg);
+        }).fail(function(){
+          alert("Ajax Error");
+        });
+      }
+
+      // Primera llamada en cargar la página.
+      window.onload = getRegions;
+    </script>
+
+  </head>
+  <body>
+    <select id="regiones">
+      <!--Opciones con las diferentes regiones.-->
+    </select>
+    <input type="submit" onclick="getLocations()"> <br>
+
+    <select id="localizaciones" style="visibility: hidden">
+      <!--Opciones con las diferentes localizaciones.-->
+    </select>
+    <input type="submit" id="localizacionesSubmit" style="visibility: hidden" onclick="getNames()">
+    <br>
+    <p style="visibility: hidden">Este sitio tambien se llama: </p>
+    <table style="visibility: hidden" border="1" cellpadding="10">
+    </table>
+    <div id="loading" style="visibility: hidden; position: absolute;">
+      <img src="./nyan.gif">
+    </div>
+
+  </body>
+</html>
