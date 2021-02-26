@@ -17,7 +17,6 @@
             text: element["name"]
           }));
         }
-        $('#loading').css("visibility", "hidden");
       }
 
       // OBTENER LAS LOCALIZACIONES, MOTRAR EL SELECT E INTRODUCIR LAS OPCIONES.
@@ -40,7 +39,6 @@
           $('table:first-of-type').css("visibility", "hidden");
           $('table:first-of-type tr').remove()
         }
-        $('#loading').css("visibility", "hidden");
       }
 
       // OBTENER LOS NOMBRES EN CADA IDIOMA.
@@ -74,12 +72,10 @@
             "<tr><td><img src='https://www.countryflags.io/"+lan+"/flat/32.png'></td><td>"+element["name"]+"</td></tr>"
           );
         }
-        $('#loading').css("visibility", "hidden");
       }
 
       // Llamadas AJAX
       function getRegions(){
-        $('#loading').css("visibility", "visible");
         $.ajax({
           url: "https://pokeapi.co/api/v2/region/",
           dataType: "json",
@@ -91,7 +87,6 @@
       }
 
       function getLocations(){
-        $('#loading').css("visibility", "visible");
         region = $('#regiones').val();
         $.ajax({
           url: "https://pokeapi.co/api/v2/region/"+region
@@ -103,7 +98,6 @@
       }
 
       function getNames(){
-        $('#loading').css("visibility", "visible");
         name = $('#localizaciones').val();
         $.ajax({
           url: "https://pokeapi.co/api/v2/location/"+name
@@ -113,6 +107,16 @@
           alert("Ajax Error");
         });
       }
+
+      // En hacer una llamada a AJAX, mostrar el gif de carga
+      $(document).ajaxStart(function() {
+        $('#loading').css("visibility", "visible");
+      });
+
+      // En terminar una operación AJAX, ocultar el gif de carga
+      $(document).ajaxStop(function() {
+        $('#loading').css("visibility", "hidden");
+      });
 
       // Primera llamada en cargar la página.
       window.onload = getRegions;
