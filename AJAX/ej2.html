@@ -139,18 +139,6 @@
         }
       }
 
-      /* REFERENCE
-      function muestraContenido() {
-        if(peticion_http.readyState == READY_STATE_COMPLETE) {
-          if(peticion_http.status == HTTP_STATUS_OK) {
-            if (peticion_http.responseText == 'TRUE'){
-              alert('El numero es primo.')
-            } else {
-              alert('El numero no es primo.');
-            }
-          }
-        }
-      }*/
       function getRegions(){
         cargaContenido("https://pokeapi.co/api/v2/region/", "GET", muestraRegiones)
       }
