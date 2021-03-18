@@ -1,9 +1,16 @@
+/*
+15 min
+Crear la lista desordenada 3 elementos A B y C, después del link de política de Cookies
+ */
+
+
 window.onload = function () {
-    padre = document.getElementsByTagName('p')[2].parentNode;
-    customCreateElement('ol', "", padre)
-    OlItem = document.getElementsByTagName('ol')[0];
-    customCreateElement('li', "Element A", OlItem);
-    customCreateElement('li', "Element B", OlItem);
+    padre = document.getElementsByTagName('a')[3];
+    customCreateElement('ul', "", padre)
+    UlItem = document.getElementsByTagName('ul')[0];
+    customCreateElement('li', "Element A", UlItem);
+    customCreateElement('li', "Element B", UlItem);
+    customCreateElement('li', "Element C", UlItem);
 }
 
 
